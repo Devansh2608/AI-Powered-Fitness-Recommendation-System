@@ -23,7 +23,6 @@ gemini:
   api:
     url: https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent
     key:
-
 eureka:
   client:
     serviceUrl:
