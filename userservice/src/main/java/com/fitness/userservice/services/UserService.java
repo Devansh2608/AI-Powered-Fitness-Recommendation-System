@@ -5,8 +5,10 @@ import com.fitness.userservice.dto.RegisterRequest;
 import com.fitness.userservice.dto.UserResponse;
 import com.fitness.userservice.models.User;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class UserService {
@@ -15,7 +17,29 @@ public class UserService {
     public UserResponse register(RegisterRequest request){
 
         if(repository.existsByEmail(request.getEmail())){
-            throw new RuntimeException("Email Already exists");
+            User existingUser =  repository.findByEmail(request.getEmail());
+
+            UserResponse userResponse = new UserResponse();
+            userResponse.setId(existingUser.getId());
+            userResponse.setPassword(existingUser.getPassword());
+            userResponse.setEmail(existingUser.getEmail());
+            userResponse.setFirstName(existingUser.getFirstName());
+            userResponse.setLastName(existingUser.getLastName());
+            userResponse.setCreatedAt(existingUser.getCreatedAt());
+            userResponse.setUpdatedAt(existingUser.getCreatedAt());
+
+//            if(existingUser.getId() == null)
+//                log.info("User id is null");
+
+            if(existingUser.getLastName() == null)
+                log.info("User LasrName is null");
+
+
+
+            if(existingUser.getKeycloakId() == null)
+                log.info("User keycloak is null");
+
+            return userResponse;
         }
 
         User user = new User();
@@ -23,12 +47,17 @@ public class UserService {
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setPassword(request.getPassword());
+        user.setKeycloakId(request.getKeycloakId());
+
+        if(request.getKeycloakId() == null)
+            log.info("Usr KeyCloak id is null");
 
         User savedUser =  repository.save(user);
 
         UserResponse userResponse = new UserResponse();
         userResponse.setId(savedUser.getId());
         userResponse.setPassword(savedUser.getPassword());
+        userResponse.setKeycloakId(savedUser.getKeycloakId());
         userResponse.setEmail(savedUser.getEmail());
         userResponse.setFirstName(savedUser.getFirstName());
         userResponse.setLastName(savedUser.getLastName());

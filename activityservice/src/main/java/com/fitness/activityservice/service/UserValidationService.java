@@ -15,20 +15,29 @@ public class UserValidationService {
     private final WebClient userServiceWebClient;
 
     public boolean validateUser(String userId){
-
+        //return true;
         try{
-        return userServiceWebClient.get()
-                .uri("/api/users/{userId}/validate", userId)
-                .retrieve()
-                .bodyToMono(boolean.class)
-                .block();}
+//        return userServiceWebClient.get()
+//                .uri("/api/users/{userId}/validate", userId)
+//                .retrieve()
+//                .bodyToMono(boolean.class)
+//                .block();
+            Boolean response= userServiceWebClient.get()
+                    .uri("/api/users/{userId}/validate", userId)
+                    .retrieve()
+                    .bodyToMono(boolean.class)
+                    .block();
+
+            return Boolean.TRUE.equals(response);
+        }
 
         catch(WebClientResponseException e)
         {
+            //return true;
             e.printStackTrace();
         }
 
         return false;
-
+//return true;
     }
 }
