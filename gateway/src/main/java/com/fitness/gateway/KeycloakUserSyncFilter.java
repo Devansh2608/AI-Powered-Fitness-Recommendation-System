@@ -65,7 +65,7 @@ public class KeycloakUserSyncFilter implements WebFilter {
                     }));
         }
 
-        return null;
+        return chain.filter(exchange);
     }
 
     private RegisterRequest getUserDetails(String token) {

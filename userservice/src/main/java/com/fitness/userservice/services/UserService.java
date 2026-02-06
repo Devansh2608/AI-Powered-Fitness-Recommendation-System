@@ -28,8 +28,6 @@ public class UserService {
             userResponse.setCreatedAt(existingUser.getCreatedAt());
             userResponse.setUpdatedAt(existingUser.getCreatedAt());
 
-//            if(existingUser.getId() == null)
-//                log.info("User id is null");
 
             if(existingUser.getLastName() == null)
                 log.info("User LasrName is null");
@@ -87,6 +85,6 @@ public class UserService {
 
 
     public Boolean existByUserId(String userId){
-        return repository.existsById(userId);
+        return repository.existsByKeycloakId(userId);
     }
 }
